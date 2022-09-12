@@ -1,7 +1,7 @@
 {
-  "name": "@hexlet/code",
-  "version": "0.1.0",
-  "description": "RSS",
+  "name": "my-webpack-project",
+  "version": "1.0.0",
+  "description": "My webpack project",
   "main": "index.html",
   "type": "module",
   "dependencies": {
@@ -515,8 +515,6 @@
     "wbuf": "^1.7.3",
     "wcwidth": "^1.0.1",
     "webidl-conversions": "^3.0.1",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0",
     "webpack-dev-middleware": "^5.3.3",
     "webpack-dev-server": "^4.11.0",
     "webpack-merge": "^5.8.0",
@@ -539,7 +537,12 @@
     "yocto-queue": "^0.1.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode=production --node-env=production",
+    "build:dev": "webpack --mode=development",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "webpack serve"
   },
   "repository": {
     "type": "git",
@@ -550,5 +553,12 @@
   "bugs": {
     "url": "https://github.com/derban7ikus/frontend-project-11/issues"
   },
-  "homepage": "https://github.com/derban7ikus/frontend-project-11#readme"
+  "homepage": "https://github.com/derban7ikus/frontend-project-11#readme",
+  "devDependencies": {
+    "@webpack-cli/generators": "^2.5.0",
+    "html-webpack-plugin": "^5.5.0",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0",
+    "workbox-webpack-plugin": "^6.5.4"
+  }
 }
