@@ -558,9 +558,12 @@
   },
   "homepage": "https://github.com/derban7ikus/frontend-project-11#readme",
   "devDependencies": {
+    "@babel/core": "^7.19.0",
+    "@babel/eslint-parser": "^7.18.9",
     "@webpack-cli/generators": "^2.5.0",
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.1",
+    "eslint": "^8.23.1",
     "eslint-plugin-jest": "^27.0.4",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
