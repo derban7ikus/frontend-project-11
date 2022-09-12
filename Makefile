@@ -1,10 +1,17 @@
-publish:
-		npm publish --dry-run
+develop:
+	npx webpack serve
+
+install:
+	npm ci
+
+build:
+	rm -rf dist
+	NODE_ENV=production npx webpack
+
+test:
+	npm test
 
 lint:
-		npx eslint .
+	npx eslint .
 
-install: install-deps
-
-install-deps:
-	npm ci
+.PHONY: test

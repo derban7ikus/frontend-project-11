@@ -2,7 +2,7 @@
   "name": "my-webpack-project",
   "version": "1.0.0",
   "description": "My webpack project",
-  "main": "index.html",
+  "main": "index.js",
   "type": "module",
   "dependencies": {
     "abbrev": "^1.1.1",
@@ -47,6 +47,7 @@
     "bl": "^4.1.0",
     "body-parser": "^1.20.0",
     "bonjour-service": "^1.0.14",
+    "bootstrap": "^5.2.1",
     "brace-expansion": "^1.1.11",
     "braces": "^3.0.2",
     "browserslist": "^4.21.3",
