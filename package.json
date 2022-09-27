@@ -211,6 +211,7 @@
     "https-proxy-agent": "^5.0.1",
     "human-signals": "^2.1.0",
     "humanize-ms": "^1.2.1",
+    "i18next": "^21.9.2",
     "iconv-lite": "^0.4.24",
     "ieee754": "^1.2.1",
     "ignore": "^5.2.0",
