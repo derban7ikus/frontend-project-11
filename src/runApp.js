@@ -1,5 +1,6 @@
 import onChange from 'on-change';
 import i18next from 'i18next';
+import axios from 'axios';
 import validate from './validate.js';
 import render from './view.js';
 import ru from './texts.js';
@@ -28,6 +29,8 @@ const runApp = () => {
         watchedState.errors = '';
         watchedState.isInvalid = false;
         watchedState.rssFeeds.push(result);
+        axios.get(result)
+          .then((res) => console.log(res));
       })
       .catch((error) => {
         watchedState.isInvalid = true;
