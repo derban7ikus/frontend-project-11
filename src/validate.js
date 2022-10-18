@@ -1,3 +1,4 @@
+/* eslint-disable array-bracket-spacing */
 import i18next from 'i18next';
 import { setLocale, string } from 'yup';
 

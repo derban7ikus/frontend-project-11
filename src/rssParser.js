@@ -1,3 +1,4 @@
+/* eslint-disable array-bracket-spacing */
 /* eslint-disable computed-property-spacing */
 const rssParser = (data) => {
   const parsedData = new DOMParser().parseFromString(data.data.contents, 'text/xml');

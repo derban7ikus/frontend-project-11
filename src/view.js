@@ -36,8 +36,8 @@ const renderFeed = (state, feeds) => {
     h3.textContent = element.feedTitle;
     p.textContent = element.feedDescription;
     li.append(h3, p);
-    ul.prepend(li);
-    feeds.appendChild(ul);
+    ul.append(li);
+    feeds.append(ul);
   });
 };
 
@@ -72,7 +72,7 @@ const renderPosts = (state, posts) => {
     a.href = post.itemLink;
     li.append(a);
     li.append(button);
-    ul.append(li);
+    ul.prepend(li);
   });
   posts.append(ul);
 };
