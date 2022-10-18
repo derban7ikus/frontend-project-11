@@ -1,14 +1,16 @@
 /* eslint-disable computed-property-spacing */
 const rssParser = (data) => {
-  const parsedData = new DOMParser().parseFromString(data.data.contents, 'text/html');
+  const parsedData = new DOMParser().parseFromString(data.data.contents, 'text/xml');
   const title = parsedData.querySelector('title');
   const description = parsedData.querySelector('description');
   const items = parsedData.querySelectorAll('item');
-
-  const feed = {
+  console.log(data.data);
+  const feed = [ {
     feedTitle: title.textContent,
     feedDescription: description.textContent,
-  };
+    feedURL: data.data.status.url,
+    id: Number,
+  } ];
   const posts = [];
 
   items.forEach((item) => {
@@ -20,6 +22,7 @@ const rssParser = (data) => {
       itemTitle,
       itemDescription,
       itemLink,
+      id: Number,
     };
     posts.push(post);
   });

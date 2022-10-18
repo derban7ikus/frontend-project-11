@@ -11,7 +11,7 @@ const validate = (url, state) => {
     },
   });
 
-  const schema = string().notOneOf([ state.form.rssFeeds ]).url();
+  const schema = string().notOneOf([ state.rssFeeds ]).url();
   return schema.validate(url);
 };
 

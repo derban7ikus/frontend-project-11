@@ -3,8 +3,12 @@ import i18next from 'i18next';
 import axios from 'axios';
 import rssParser from './rssParser.js';
 import validate from './validate.js';
-import { render, renderFeed, renderPosts } from './view.js';
+import {
+  render, renderFeed, renderPosts,
+} from './view.js';
 import ru from './texts.js';
+import idDelivery from './idDelivery.js';
+import autoUpdate from './autoUpdate.js';
 
 const runApp = () => {
   const state = {
@@ -13,8 +17,13 @@ const runApp = () => {
       rssFeeds: [],
       errors: '',
     },
-    feeds: [],
-    posts: [],
+    feeds: {
+      list: [],
+    },
+    posts: {
+      list: [],
+      clicked: [],
+    },
   };
   i18next.init({ lng: 'ru', debug: true, resources: { ru } });
 
@@ -23,38 +32,60 @@ const runApp = () => {
   const feedback = document.querySelector('.feedback');
   const feeds = document.querySelector('.feeds');
   const posts = document.querySelector('.posts');
+  const modal = document.getElementById('modal');
 
-  const watchedState = onChange(state, () => {
-    console.log(state);
-    render(watchedState, input, form, feedback);
-    renderFeed(watchedState, feeds);
-    renderPosts(watchedState, posts);
+  const watchedForm = onChange(state.form, () => {
+    render(watchedForm, input, form, feedback);
+  });
+  const watchedFeeds = onChange(state.feeds, () => {
+    renderFeed(watchedFeeds, feeds);
+  });
+  const watchedPosts = onChange(state.posts, () => {
+    renderPosts(watchedPosts, posts);
   });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const url = input.value;
-    validate(url, watchedState)
-      .then(() => axios.get(`https://allorigins.hexlet.app/get?url=${encodeURIComponent(`${url}`)}`))
+    if (state.feeds.list.length === 0) {
+      autoUpdate(watchedFeeds, watchedPosts);
+    }
+    validate(url, watchedForm)
+      .then(() => axios.get(`https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(`${url}`)}`))
       .then((response) => {
         if (!response.data.contents.includes('</rss>')) throw new Error('String is not RSS');
-        watchedState.form.errors = '';
-        watchedState.form.isInvalid = false;
-        watchedState.form.rssFeeds.push(url);
+        watchedForm.errors = i18next.t('errors.true');
+        watchedForm.isInvalid = false;
+        watchedForm.rssFeeds.push(url);
         const parsedData = rssParser(response);
-        watchedState.feeds.push(parsedData.feed);
-        watchedState.posts.push(...parsedData.posts);
+        const feedsWithId = idDelivery(watchedFeeds, parsedData.feed);
+        const postsWithId = idDelivery(watchedPosts, parsedData.posts);
+        watchedFeeds.list.push(...feedsWithId);
+        watchedPosts.list.push(...postsWithId);
       })
       .catch((error) => {
-        watchedState.form.isInvalid = true;
+        watchedForm.isInvalid = true;
         if (error.message === 'Network Error') {
-          watchedState.form.errors = i18next.t('errors.network');
+          watchedForm.errors = i18next.t('errors.network');
         } else if (error.message === 'String is not RSS') {
-          watchedState.form.errors = i18next.t('errors.notRss');
-        } else watchedState.form.errors = error.errors;
+          watchedForm.errors = i18next.t('errors.notRss');
+        } else watchedForm.errors = error.errors;
       });
     form.reset();
     input.focus();
+  });
+
+  modal.addEventListener('show.bs.modal', (event) => {
+    const button = event.relatedTarget;
+    const buttonId = Number(button.dataset.id);
+    watchedPosts.clicked.push(buttonId);
+    const modalTitle = modal.querySelector('.modal-title');
+    const modalBody = modal.querySelector('.modal-body');
+    const fullArticle = modal.querySelector('.full-article');
+    const clickedObj = state.posts.list.find(({ id }) => id === buttonId);
+    modalTitle.textContent = clickedObj.itemTitle;
+    modalBody.textContent = clickedObj.itemDescription;
+    fullArticle.href = clickedObj.itemLink;
   });
 };
 
