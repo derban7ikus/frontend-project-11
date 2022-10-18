@@ -5,11 +5,11 @@ const rssParser = (data) => {
   const title = parsedData.querySelector('title');
   const description = parsedData.querySelector('description');
   const items = parsedData.querySelectorAll('item');
-  console.log(data.data);
+  console.log(data);
   const feed = [ {
     feedTitle: title.textContent,
     feedDescription: description.textContent,
-    feedURL: data.data.status.url,
+    feedURL: data.config.url,
     id: Number,
   } ];
   const posts = [];
